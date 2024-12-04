@@ -18,7 +18,7 @@ import {
   Delete as DeleteIcon 
 } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
-import { generateResponse } from '../../services/llm';
+import { generateResponse, getInitialMessage } from '../../services/llm';
 import ChatHistory from './ChatHistory';
 import toast from 'react-hot-toast';
 
@@ -38,7 +38,11 @@ interface ChatState {
 
 const Chat: React.FC = () => {
   const [state, setState] = useState<ChatState>({
-    messages: [],
+    messages: [{
+      content: getInitialMessage(),
+      sender: 'bot',
+      timestamp: Date.now()
+    }],
     isTyping: false,
     error: null,
     historyOpen: false,
@@ -46,6 +50,7 @@ const Chat: React.FC = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -131,6 +136,10 @@ const Chat: React.FC = () => {
       setState(prev => ({ ...prev, messages: [...prev.messages, botMessage] }));
     } finally {
       setIsLoading(false);
+      // Focus the input field after the bot responds
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
     }
   };
 
@@ -169,7 +178,18 @@ const Chat: React.FC = () => {
   };
 
   const handleClearChat = () => {
-    setState(prev => ({ ...prev, messages: [] }));
+    setState(prev => ({ 
+      ...prev, 
+      messages: [{
+        content: getInitialMessage(),
+        sender: 'bot',
+        timestamp: Date.now()
+      }] 
+    }));
+    // Focus the input field after clearing
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 100);
   };
 
   return (
@@ -239,6 +259,8 @@ const Chat: React.FC = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
             disabled={isLoading}
+            autoComplete="off"
+            inputRef={inputRef}
           />
           <Button
             variant="contained"
