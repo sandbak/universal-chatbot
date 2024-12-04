@@ -9,6 +9,10 @@ import theme from './theme';
 import { Toaster } from 'react-hot-toast';
 import './i18n/config';
 
+interface Message {
+  // Add message interface properties here
+}
+
 const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>

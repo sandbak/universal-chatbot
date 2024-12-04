@@ -109,81 +109,61 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ open, onClose, onLoadChat }) 
       open={open}
       onClose={onClose}
       PaperProps={{
-        sx: { width: { xs: '100%', sm: 400 } },
+        sx: { width: { xs: '100%', sm: 400 } }
       }}
     >
       <Box sx={{ p: 2 }}>
-        <Typography variant="h6" component="div">
-          {t('chat.savedChats')}
+        <Typography variant="h6" gutterBottom>
+          {t('chat.history')}
         </Typography>
       </Box>
       <Divider />
       {loading ? (
-        <Box sx={{ display: 'flex', justifyContent: 'center', p: 3 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
           <CircularProgress />
         </Box>
       ) : savedChats.length === 0 ? (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 4, textAlign: 'center' }}>
           <Typography color="textSecondary">
-            {t('chat.noSavedChats')}
+            {t('chat.no_history')}
           </Typography>
         </Box>
       ) : (
-        <List>
+        <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
           {savedChats.map((chat) => (
-            <ListItem
-              key={chat.id}
-              button
-              onClick={() => handleLoadChat(chat)}
-              sx={{
-                '&:hover': {
-                  backgroundColor: 'action.hover',
-                },
-              }}
-            >
-              <ChatIcon sx={{ mr: 2, color: 'primary.main' }} />
-              <ListItemText
-                primary={chat.title}
-                secondary={
-                  <>
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      color="textSecondary"
-                    >
-                      {formatDate(chat.timestamp)}
-                    </Typography>
-                    <br />
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      color="textSecondary"
-                      sx={{
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        display: '-webkit-box',
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: 'vertical',
-                      }}
-                    >
-                      {chat.lastMessage}
-                    </Typography>
-                  </>
-                }
-              />
-              <ListItemSecondaryAction>
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteChat(chat.id);
+            <React.Fragment key={chat.id}>
+              <ListItem>
+                <ListItemText
+                  primary={chat.title}
+                  secondary={formatDate(chat.timestamp)}
+                  sx={{
+                    '.MuiListItemText-primary': {
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis'
+                    }
                   }}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
+                />
+                <ListItemSecondaryAction>
+                  <IconButton
+                    edge="end"
+                    aria-label="load"
+                    onClick={() => handleLoadChat(chat)}
+                    sx={{ mr: 1 }}
+                  >
+                    <ChatIcon />
+                  </IconButton>
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    onClick={() => handleDeleteChat(chat.id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+              <Divider component="li" />
+            </React.Fragment>
           ))}
         </List>
       )}

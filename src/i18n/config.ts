@@ -8,23 +8,32 @@ const resources = {
       auth: {
         login: 'Login',
         register: 'Register',
-        email: 'Email Address',
+        email: 'Email',
         password: 'Password',
-        confirmPassword: 'Confirm Password',
-        loginButton: 'Sign In',
-        registerButton: 'Sign Up',
-        loginError: 'Failed to log in',
-        registrationError: 'Failed to register',
-        passwordMismatch: 'Passwords do not match'
+        logout: 'Logout',
+        no_account: "Don't have an account? Sign Up",
+        have_account: 'Already have an account? Sign In',
+        login_success: 'Successfully logged in!',
+        login_error: 'Failed to log in',
+        register_success: 'Successfully registered!',
+        register_error: 'Failed to register',
+        logout_success: 'Successfully logged out!',
+        logout_error: 'Failed to log out'
       },
       chat: {
-        newChat: 'New Chat',
+        placeholder: 'Type your message...',
         send: 'Send',
-        typing: 'Chatbot is typing...',
-        placeholder: 'Type your message here...',
-        saveChat: 'Save Chat',
-        deleteChat: 'Delete Chat',
-        savedChats: 'Saved Chats'
+        clear: 'Clear',
+        history: 'History',
+        save: 'Save',
+        save_success: 'Chat saved successfully!',
+        save_error: 'Failed to save chat',
+        load_success: 'Chat loaded successfully!',
+        load_error: 'Failed to load chat',
+        delete_success: 'Chat deleted successfully!',
+        delete_error: 'Failed to delete chat',
+        no_history: 'No saved chats found',
+        loading: 'Loading...'
       }
     }
   },
