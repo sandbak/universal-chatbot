@@ -1,26 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import { AuthProvider } from './contexts/AuthContext';
+import Login from './components/Auth/Login';
+import Register from './components/Auth/Register';
+import Chat from './components/Chat/Chat';
+import theme from './theme';
+import { Toaster } from 'react-hot-toast';
+import './i18n/config';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AuthProvider>
+        <Router>
+          <div className="App">
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/chat" element={<Chat />} />
+              <Route path="/" element={<Navigate to="/login" replace />} />
+            </Routes>
+            <Toaster position="top-right" />
+          </div>
+        </Router>
+      </AuthProvider>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
